@@ -1,10 +1,9 @@
 import React from 'react';
-import UserProfile from './components/UserProfile'; // Import the UserProfile component
+import UserProfile from './components/UserProfile';
 
 function App() {
     return (
         <div>
-            {/* Rendering UserProfile components with different props */}
             <UserProfile 
                 name="Alice" 
                 age="25" 

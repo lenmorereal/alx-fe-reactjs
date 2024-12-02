@@ -1,3 +1,5 @@
+import React from 'react';
+
 const UserProfile = (props) => {
     return (
         <div style={{
@@ -11,7 +13,7 @@ const UserProfile = (props) => {
         }}>
             <h2>{props.name}</h2>
             <p>Age: {props.age}</p>
-            <p>{props.bio}</p>
+            <p>Bio: {props.bio}</p> {/* Ensure the word "Bio" is included here */}
         </div>
     );
 };
