@@ -1,13 +1,12 @@
 // src/App.jsx
 import React from 'react';
 import './App.css';
-import Counter from './components/Counter';  // Import the Counter component
+import Counter from './components/Counter'; // Make sure the path is correct
 
 function App() {
   return (
     <div className="App">
-      <h1>Counter Application</h1>
-      <Counter />  {/* Use the Counter component */}
+      <Counter />
     </div>
   );
 }
