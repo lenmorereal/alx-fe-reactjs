@@ -1,26 +1,12 @@
 import React from 'react';
-import UserProfile from './components/UserProfile';
+import Counter from './components/Counter'; // Import the Counter component
 
-function App() {
+const App = () => {
     return (
         <div>
-            <UserProfile 
-                name="Alice" 
-                age="25" 
-                bio="Loves hiking and photography." 
-            />
-            <UserProfile 
-                name="Bob" 
-                age="30" 
-                bio="Enjoys coding and playing chess." 
-            />
-            <UserProfile 
-                name="Charlie" 
-                age="28" 
-                bio="Passionate about traveling and cooking." 
-            />
+            <Counter /> {/* Use the Counter component here */}
         </div>
     );
-}
+};
 
 export default App;
