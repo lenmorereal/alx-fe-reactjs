@@ -1,14 +1,25 @@
 import React from 'react';
-import Header from './components/Header';
-import MainContent from './components/MainContent';
-import Footer from './components/Footer';
+import UserProfile from './components/UserProfile'; // Import the UserProfile component
 
 function App() {
     return (
         <div>
-            <Header />
-            <MainContent />
-            <Footer />
+            {/* Rendering UserProfile components with different props */}
+            <UserProfile 
+                name="Alice" 
+                age="25" 
+                bio="Loves hiking and photography." 
+            />
+            <UserProfile 
+                name="Bob" 
+                age="30" 
+                bio="Enjoys coding and playing chess." 
+            />
+            <UserProfile 
+                name="Charlie" 
+                age="28" 
+                bio="Passionate about traveling and cooking." 
+            />
         </div>
     );
 }
