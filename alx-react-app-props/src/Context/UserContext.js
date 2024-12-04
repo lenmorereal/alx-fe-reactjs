@@ -1,10 +1,10 @@
-// src/context/UserContext.js
+// src/Context/UserContext.js
 import React, { createContext, useState } from 'react';
 
-export const UserContext = createContext();
+const UserContext = createContext();
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({ name: "John Doe", email: "johndoe@example.com" });
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null); // Or any initial state for the user
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -13,4 +13,4 @@ const UserProvider = ({ children }) => {
   );
 };
 
-export default UserProvider;
+export default UserContext;
