@@ -1,26 +1,18 @@
+// App.jsx
 import React from 'react';
-import UserProfile from './components/UserProfile';
+import CounterProvider from './context/CounterContext'; // Assuming CounterContext provides the context
+import Counter from './components/Counter';
 
-function App() {
-    return (
-        <div>
-            <UserProfile 
-                name="Alice" 
-                age="25" 
-                bio="Loves hiking and photography." 
-            />
-            <UserProfile 
-                name="Bob" 
-                age="30" 
-                bio="Enjoys coding and playing chess." 
-            />
-            <UserProfile 
-                name="Charlie" 
-                age="28" 
-                bio="Passionate about traveling and cooking." 
-            />
-        </div>
-    );
-}
+const App = () => {
+  return (
+    <CounterProvider>
+      <div className="App">
+        <h1>Welcome to the Counter App</h1>
+        <Counter />
+      </div>
+    </CounterProvider>
+  );
+};
 
 export default App;
+
