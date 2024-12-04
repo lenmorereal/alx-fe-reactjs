@@ -1,14 +1,14 @@
-import ProfilePage from './ProfilePage';
-import UserContext from './UserContext';
+// src/App.jsx
+import React from 'react';
+import { UserProvider } from './Context/UserContext'; // Ensure correct import path
+import UserProfile from './UserProfile'; // Example component that uses the context
 
-function App() {
-  const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
-
+const App = () => {
   return (
-    <UserContext.Provider value={userData}>
-      <ProfilePage />
-    </UserContext.Provider>
+    <UserProvider>
+      <UserProfile />
+    </UserProvider>
   );
-}
+};
 
 export default App;
