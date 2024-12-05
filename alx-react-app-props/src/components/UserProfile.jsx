@@ -1,19 +1,24 @@
+// src/components/UserProfile.jsx
 import React from 'react';
+import { useUser } from '../UserContext'; // Import the custom hook to access the context
 
-const UserProfile = (props) => {
+const UserProfile = () => {
+    const { user, loginUser, logoutUser } = useUser(); // Destructure the context values
+
+    const handleLogin = () => {
+        loginUser({ name: 'John Doe', email: 'john.doe@example.com' }); // Example login
+    };
+
+    const handleLogout = () => {
+        logoutUser(); // Example logout
+    };
+
     return (
-        <div style={{
-            border: '1px solid #ddd',
-            padding: '16px',
-            borderRadius: '8px',
-            maxWidth: '300px',
-            margin: '16px auto',
-            textAlign: 'center',
-            backgroundColor: '#f9f9f9'
-        }}>
-            <h2>{props.name}</h2>
-            <p>Age: {props.age}</p>
-            <p>Bio: {props.bio}</p> {/* Ensure the word "Bio" is included here */}
+        <div>
+            <h2>User Profile</h2>
+            <p>User: {user ? `${user.name} (${user.email})` : 'Not logged in'}</p>
+            <button onClick={handleLogin}>Login</button>
+            <button onClick={handleLogout}>Logout</button>
         </div>
     );
 };
