@@ -5,12 +5,12 @@ import React, { createContext, useState, useContext } from 'react';
 const UserContext = createContext();
 
 // Custom hook to use the UserContext
-export const useUser = () => {
+const useUser = () => {
     return useContext(UserContext);
 };
 
 // Provider component that wraps the app and provides context values
-export const UserProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null); // Example state to manage user info
 
     // You can update this logic to fit your specific user management needs
@@ -28,3 +28,6 @@ export const UserProvider = ({ children }) => {
         </UserContext.Provider>
     );
 };
+
+// Make both UserContext and UserProvider default exports
+export default { UserContext, UserProvider, useUser };
