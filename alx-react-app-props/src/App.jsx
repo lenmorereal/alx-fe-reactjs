@@ -1,14 +1,16 @@
-// src/App.jsx
-import React from 'react';
-import { UserProvider } from './Context/UserContext'; // Ensure correct import path
-import UserProfile from './UserProfile'; // Example component that uses the context
+import React from "react";
+import { UserProvider } from "./UserContext";
+import UserProfile from "./UserProfile";
 
 const App = () => {
-  return (
-    <UserProvider>
-      <UserProfile />
-    </UserProvider>
-  );
+    return (
+        <UserProvider>
+            <div>
+                <h1>Welcome to the App</h1>
+                <UserProfile />
+            </div>
+        </UserProvider>
+    );
 };
 
 export default App;
