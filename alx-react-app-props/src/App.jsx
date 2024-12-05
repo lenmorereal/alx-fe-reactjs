@@ -1,16 +1,18 @@
-import React from "react";
-import { UserProvider } from "./UserContext";
-import UserProfile from "./UserProfile";
+// src/App.jsx
+import React from 'react';
+import { UserProvider } from './UserContext'; // Import the UserProvider component
+import UserProfile from './components/UserProfile'; // Import the UserProfile component
 
-const App = () => {
+function App() {
     return (
+        // Wrap the app with UserProvider to provide the context
         <UserProvider>
-            <div>
-                <h1>Welcome to the App</h1>
+            <div className="App">
+                <h1>Welcome to My React App</h1>
                 <UserProfile />
             </div>
         </UserProvider>
     );
-};
+}
 
 export default App;
