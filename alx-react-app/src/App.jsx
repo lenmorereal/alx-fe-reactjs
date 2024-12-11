@@ -1,14 +1,13 @@
-// src/App.jsx
-import React from 'react';
-import './App.css';
-import Counter from './components/Counter'; // Make sure the path is correct
+import React from "react";
+import Counter from "./components/Counter";
 
-function App() {
-  return (
-    <div className="App">
-      <Counter />
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <div>
+            <h1>React Counter Example</h1>
+            <Counter />
+        </div>
+    );
+};
 
 export default App;
