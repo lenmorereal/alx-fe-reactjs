@@ -8,10 +8,10 @@ const EditRecipeForm = ({ recipe }) => {
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
   const handleSubmit = (e) => {
-    // Prevent default form submission
+    // Ensure form does not trigger a page reload
     e.preventDefault();
-    
-    // Update the recipe in the Zustand store
+
+    // Update the recipe in the store
     updateRecipe({ ...recipe, title, description });
   };
 
