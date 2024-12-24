@@ -1,23 +1,21 @@
+// src/components/Navbar.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
-    <nav style={{ padding: '10px', backgroundColor: '#f8f9fa', borderBottom: '1px solid #ddd' }}>
-      <ul style={{ listStyleType: 'none', display: 'flex', gap: '15px' }}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/services">Services</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-      </ul>
+    <nav style={{
+      display: 'flex', // Enables flexbox layout
+      justifyContent: 'space-between', // Distributes items with space between them
+      alignItems: 'center', // Vertically aligns items in the center
+      padding: '10px 20px',
+      backgroundColor: '#333',
+      color: '#fff'
+    }}>
+      <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
+      <Link to="/about" style={{ color: '#fff', textDecoration: 'none' }}>About</Link>
+      <Link to="/services" style={{ color: '#fff', textDecoration: 'none' }}>Services</Link>
+      <Link to="/contact" style={{ color: '#fff', textDecoration: 'none' }}>Contact</Link>
     </nav>
   );
 }
