@@ -1,22 +1,30 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SearchBar from './components/SearchBar';
-import RecipeList from './components/RecipeList';
-import RecipeDetails from './components/RecipeDetails';
+import { useRecipeStore } from '../store/recipeStore'; // Ensure correct path for the store
+import { Link } from 'react-router-dom';  // Import Link from react-router-dom
 
-const App = () => {
+const RecipeList = () => {
+  // Access the filtered recipes from Zustand store
+  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
+
   return (
-    <Router>
-      <div>
-        <h1>Recipe Sharing App</h1>
-        <SearchBar />
-        <Routes>
-          <Route path="/" element={<RecipeList />} />
-          <Route path="/recipe/:id" element={<RecipeDetails />} /> {/* RecipeDetails route */}
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      {filteredRecipes.length === 0 ? (
+        <p>No recipes found</p>
+      ) : (
+        // Use map to iterate over the filtered recipes
+        filteredRecipes.map(recipe => (
+          <div key={recipe.id}>
+            <h2>
+              {/* Link component for navigating to the RecipeDetails page */}
+              <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+            </h2>
+            <p>{recipe.description}</p>
+            {/* Display other recipe details here if necessary */}
+          </div>
+        ))
+      )}
+    </div>
   );
 };
 
-export default App;
+export default RecipeList;
