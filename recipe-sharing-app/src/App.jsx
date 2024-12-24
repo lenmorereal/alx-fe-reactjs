@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SearchBar from './components/SearchBar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
+import SearchBar from './components/SearchBar';
+import AddRecipeForm from './components/AddRecipeForm'; // Import AddRecipeForm component
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
         <SearchBar />
         <Routes>
           <Route path="/" element={<RecipeList />} />
-          <Route path="/recipe/:id" element={<RecipeDetails />} /> {/* RecipeDetails route */}
+          <Route path="/recipe/:id" element={<RecipeDetails />} />
+          <Route path="/add-recipe" element={<AddRecipeForm />} /> {/* Add route for AddRecipeForm */}
         </Routes>
       </div>
     </Router>
