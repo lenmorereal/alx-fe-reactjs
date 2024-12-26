@@ -1,17 +1,20 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';  // Adjust if necessary
+import Profile from './components/Profile';  // Adjust if necessary
+import BlogPost from './components/BlogPost';  // Adjust if necessary
 
-const BlogPost = () => {
-  // Access the dynamic `id` parameter from the URL
-  const { id } = useParams();
-
+const App = () => {
   return (
-    <div>
-      <h1>Blog Post {id}</h1>
-      {/* Fetch and display blog post content here based on `id` */}
-      <p>Content for blog post {id} goes here.</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/*" element={<Profile />} />
+        {/* Dynamic route for blog post */}
+        <Route path="/blog/:id" element={<BlogPost />} />
+      </Routes>
+    </Router>
   );
 };
 
-export default BlogPost;
+export default App;
