@@ -1,15 +1,33 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import PostsComponent from './PostsComponent';
+import { useQuery } from 'react-query';
 
-const queryClient = new QueryClient();
+const fetchPosts = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
 
-function App() {
+const PostsComponent = () => {
+  const { data, error, isLoading, isError } = useQuery('posts', fetchPosts);
+
+  if (isLoading) return <p>Loading posts...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <PostsComponent />
-    </QueryClientProvider>
+    <div>
+      <h1>Posts</h1>
+      <ul>
+        {data.map((post) => (
+          <li key={post.id}>
+            <strong>{post.title}</strong>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
-}
+};
 
-export default App;
+export default PostsComponent;
