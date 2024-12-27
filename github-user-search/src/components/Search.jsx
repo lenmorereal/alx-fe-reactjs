@@ -43,7 +43,7 @@ const Search = () => {
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && <p className="text-red-500">{error}</p>} {/* Error message displayed here */}
       {userData && (
         <div className="mt-4 p-4 border rounded shadow-lg">
           <img src={userData.avatar_url} alt={userData.login} className="w-32 h-32 rounded-full" />
