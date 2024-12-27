@@ -10,10 +10,10 @@ const AddRecipeForm = () => {
 
   // Handling input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Accessing target.value to update the state
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
-      [name]: value,
+      [name]: value, // Updating the specific field based on the name
     }));
   };
 
@@ -57,7 +57,7 @@ const AddRecipeForm = () => {
             id="title"
             name="title"
             value={recipe.title}
-            onChange={handleChange}
+            onChange={handleChange} // Correctly capturing target.value here
             className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />
@@ -73,7 +73,7 @@ const AddRecipeForm = () => {
             id="ingredients"
             name="ingredients"
             value={recipe.ingredients}
-            onChange={handleChange}
+            onChange={handleChange} // Correctly capturing target.value here
             rows="4"
             className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
@@ -90,7 +90,7 @@ const AddRecipeForm = () => {
             id="steps"
             name="steps"
             value={recipe.steps}
-            onChange={handleChange}
+            onChange={handleChange} // Correctly capturing target.value here
             rows="4"
             className="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
@@ -113,3 +113,4 @@ const AddRecipeForm = () => {
 };
 
 export default AddRecipeForm;
+
