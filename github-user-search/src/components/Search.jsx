@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubService';
+import { fetchUserData } from '../services/githubService';  // Import the API service
 
 const Search = () => {
   const [username, setUsername] = useState('');
@@ -18,10 +18,10 @@ const Search = () => {
     setUserData(null);
 
     try {
-      const data = await fetchUserData(username);
+      const data = await fetchUserData(username);  // API request to get user data
       setUserData(data);
     } catch (err) {
-      setError('Looks like we can\'t find the user'); // Error message when the user is not found
+      setError('Looks like we can\'t find the user');  // Error handling message
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ const Search = () => {
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>} {/* Error message displayed here */}
+      {error && <p className="text-red-500">{error}</p>}  {/* Error message displayed here */}
       {userData && (
         <div className="mt-4 p-4 border rounded shadow-lg">
           <img src={userData.avatar_url} alt={userData.login} className="w-32 h-32 rounded-full" />
