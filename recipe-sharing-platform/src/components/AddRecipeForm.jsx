@@ -4,24 +4,23 @@ const AddRecipeForm = () => {
   const [recipe, setRecipe] = useState({
     title: '',
     ingredients: '',
-    instructions: '',
+    steps: '', // Ensure steps field is included
   });
   const [errors, setErrors] = useState({});
-  
-  const handleChange = (e) => {
-  const { name, value } = e.target;  // e.target.value gets the value from the input
-  setRecipe((prevRecipe) => ({
-    ...prevRecipe,
-    [name]: value,  // updates the state dynamically based on the name of the input
-  }));
-};
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      [name]: value, // Updates the appropriate field in the state
+    }));
+  };
 
   const validateForm = () => {
     const newErrors = {};
     if (!recipe.title) newErrors.title = 'Title is required';
     if (!recipe.ingredients) newErrors.ingredients = 'Ingredients are required';
-    if (!recipe.instructions) newErrors.instructions = 'Instructions are required';
+    if (!recipe.steps) newErrors.steps = 'Steps are required'; // Ensure validation for steps
     return newErrors;
   };
 
@@ -30,7 +29,7 @@ const AddRecipeForm = () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
       console.log('Recipe added:', recipe);
-      // You can implement the functionality to save the recipe data here
+      // Submit the recipe data here (e.g., to an API or local storage)
     } else {
       setErrors(formErrors);
     }
@@ -73,19 +72,19 @@ const AddRecipeForm = () => {
         </div>
 
         <div>
-          <label htmlFor="instructions" className="block text-sm font-medium text-gray-700">
-            Cooking Instructions
+          <label htmlFor="steps" className="block text-sm font-medium text-gray-700">
+            Cooking Steps
           </label>
           <textarea
-            id="instructions"
-            name="instructions"
-            value={recipe.instructions}
+            id="steps"
+            name="steps"
+            value={recipe.steps}
             onChange={handleChange}
             rows="4"
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
           />
-          {errors.instructions && <p className="text-red-500 text-xs mt-1">{errors.instructions}</p>}
+          {errors.steps && <p className="text-red-500 text-xs mt-1">{errors.steps}</p>}
         </div>
 
         <div>
