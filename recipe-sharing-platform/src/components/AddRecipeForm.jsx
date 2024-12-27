@@ -32,15 +32,22 @@ const AddRecipeForm = () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
       console.log('Recipe added:', recipe);
+      // You can add functionality to save the recipe here
+      setRecipe({
+        title: '',
+        ingredients: '',
+        steps: '',
+      });
     } else {
       setErrors(formErrors);
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-6">Add New Recipe</h2>
+    <div className="max-w-lg mx-auto p-6 shadow-lg rounded-lg bg-white">
+      <h2 className="text-2xl font-bold mb-6 text-center">Add New Recipe</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Recipe Title */}
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Recipe Title
@@ -57,6 +64,7 @@ const AddRecipeForm = () => {
           {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
         </div>
 
+        {/* Ingredients */}
         <div>
           <label htmlFor="ingredients" className="block text-sm font-medium text-gray-700">
             Ingredients
@@ -73,6 +81,7 @@ const AddRecipeForm = () => {
           {errors.ingredients && <p className="text-red-500 text-xs mt-1">{errors.ingredients}</p>}
         </div>
 
+        {/* Cooking Steps */}
         <div>
           <label htmlFor="steps" className="block text-sm font-medium text-gray-700">
             Cooking Steps
@@ -89,6 +98,7 @@ const AddRecipeForm = () => {
           {errors.steps && <p className="text-red-500 text-xs mt-1">{errors.steps}</p>}
         </div>
 
+        {/* Submit Button */}
         <div>
           <button
             type="submit"
