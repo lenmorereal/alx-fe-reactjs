@@ -9,12 +9,13 @@ const AddRecipeForm = () => {
   const [errors, setErrors] = useState({});
   
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      [name]: value,
-    }));
-  };
+  const { name, value } = e.target;  // e.target.value gets the value from the input
+  setRecipe((prevRecipe) => ({
+    ...prevRecipe,
+    [name]: value,  // updates the state dynamically based on the name of the input
+  }));
+};
+
 
   const validateForm = () => {
     const newErrors = {};
