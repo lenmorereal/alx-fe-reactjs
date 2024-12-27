@@ -8,14 +8,16 @@ const AddRecipeForm = () => {
   });
   const [errors, setErrors] = useState({});
 
+  // Handling input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // Capture the name and value of the input field
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
-      [name]: value, // Updates the appropriate field in the state
+      [name]: value, // Updates the appropriate field in the state using target.value
     }));
   };
 
+  // Form validation
   const validateForm = () => {
     const newErrors = {};
     if (!recipe.title) newErrors.title = 'Title is required';
@@ -24,6 +26,7 @@ const AddRecipeForm = () => {
     return newErrors;
   };
 
+  // Form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     const formErrors = validateForm();
@@ -48,7 +51,7 @@ const AddRecipeForm = () => {
             id="title"
             name="title"
             value={recipe.title}
-            onChange={handleChange}
+            onChange={handleChange} // Handles value change using target.value
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
           />
@@ -63,7 +66,7 @@ const AddRecipeForm = () => {
             id="ingredients"
             name="ingredients"
             value={recipe.ingredients}
-            onChange={handleChange}
+            onChange={handleChange} // Handles value change using target.value
             rows="4"
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
@@ -79,7 +82,7 @@ const AddRecipeForm = () => {
             id="steps"
             name="steps"
             value={recipe.steps}
-            onChange={handleChange}
+            onChange={handleChange} // Handles value change using target.value
             rows="4"
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
