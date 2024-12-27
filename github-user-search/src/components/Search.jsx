@@ -14,14 +14,18 @@ const Search = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setUserData(null);
+    setError(''); // Clear error message
+    setUserData(null); // Clear previous user data
 
     try {
       const data = await fetchUserData(username);  // API request to get user data
-      setUserData(data);
+      if (data.message === 'Not Found') {  // Check if user is not found
+        setError("Looks like we can't find the user");
+      } else {
+        setUserData(data); // Set user data if API response is successful
+      }
     } catch (err) {
-      setError("Looks like we can't find the user");  // Error message displayed here
+      setError("Looks like we can't find the user"); // Set error message in case of network issues
     } finally {
       setLoading(false);
     }
