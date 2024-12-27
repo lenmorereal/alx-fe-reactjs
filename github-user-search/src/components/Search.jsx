@@ -1,73 +1,60 @@
 import React, { useState } from 'react';
-import { fetchUserData } from '../services/githubService';  // Import the API service
-import axios from 'axios';
 
-export const fetchUserData = async (username) => {
-  try {
-    const response = await axios.get(`https://api.github.com/users/${username}`);
-    return response.data;  // Return the user data
-  } catch (error) {
-    throw new Error("User not found");  // Throw an error in case of failure
-  }
-};
-
-const Search = () => {
+const Search = ({ onSearch }) => {
   const [username, setUsername] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [location, setLocation] = useState('');
+  const [minRepos, setMinRepos] = useState('');
 
-  const handleChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(''); // Clear error message
-    setUserData(null); // Clear previous user data
-
-    try {
-      const data = await fetchUserData(username);  // API request to get user data
-      if (data.message === 'Not Found') {  // Check if user is not found
-        setError("Looks like we can't find the user");
-      } else {
-        setUserData(data); // Set user data if API response is successful
-      }
-    } catch (err) {
-      setError("Looks like we can't find the user"); // Set error message in case of network issues
-    } finally {
-      setLoading(false);
-    }
+    onSearch({ username, location, minRepos });
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <form onSubmit={handleSubmit} className="flex flex-col items-center">
+    <form onSubmit={handleSearch} className="p-4 bg-gray-100 rounded shadow-md space-y-4">
+      <div>
+        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
         <input
+          id="username"
           type="text"
           value={username}
-          onChange={handleChange}
+          onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter GitHub username"
-          className="border-2 p-2 mb-4 w-1/2"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Search
-        </button>
-      </form>
+      </div>
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}  {/* Error message displayed here */}
-      {userData && (
-        <div className="mt-4 p-4 border rounded shadow-lg">
-          <img src={userData.avatar_url} alt={userData.login} className="w-32 h-32 rounded-full" />
-          <h3 className="text-xl font-semibold">{userData.name || userData.login}</h3>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-            Visit Profile
-          </a>
-        </div>
-      )}
-    </div>
+      <div>
+        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+        <input
+          id="location"
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="Enter location"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="minRepos" className="block text-sm font-medium text-gray-700">Minimum Repositories</label>
+        <input
+          id="minRepos"
+          type="number"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          placeholder="Enter minimum repositories"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Search
+      </button>
+    </form>
   );
 };
 
