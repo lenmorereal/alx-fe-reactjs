@@ -1,78 +1,35 @@
-// src/components/Search.jsx
-import React, { useState } from 'react';
-import { searchGitHubUsers } from '../services/githubService';
+// src/services/githubService.js
+import axios from 'axios';
 
-function Search() {
-  const [query, setQuery] = useState('');
-  const [location, setLocation] = useState('');
-  const [minRepos, setMinRepos] = useState(0);
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+// Function to fetch user data from GitHub API based on advanced search criteria
+export const fetchUserData = async (query, location = '', minRepos = 0) => {
+  try {
+    // GitHub API URL for searching users
+    const baseUrl = 'https://api.github.com/search/users?q=';
 
-  // Fetch user data using advanced search criteria
-  const fetchUserData = async (query, location, minRepos) => {
-    try {
-      setLoading(true);
-      setError(null);
+    // Building the search query string
+    let queryString = query; // Base query (e.g., GitHub username)
 
-      // Fetch users from the API using the searchGitHubUsers function
-      const users = await searchGitHubUsers(query, location, minRepos);
-      setResults(users);
-    } catch (err) {
-      setError('Failed to fetch users');
-    } finally {
-      setLoading(false);
+    // Add location filter if provided
+    if (location) {
+      queryString += `+location:${location}`;
     }
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Call fetchUserData on form submission with the current search parameters
-    fetchUserData(query, location, minRepos);
-  };
+    // Add minimum repositories filter if provided
+    if (minRepos > 0) {
+      queryString += `+repos:>=${minRepos}`;
+    }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a GitHub user"
-        />
-        <input
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location (optional)"
-        />
-        <input
-          type="number"
-          value={minRepos}
-          onChange={(e) => setMinRepos(Number(e.target.value))}
-          placeholder="Min Repositories"
-        />
-        <button type="submit">Search</button>
-      </form>
+    // Full URL for the API request
+    const url = `${baseUrl}${encodeURIComponent(queryString)}`;
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+    // Making GET request using Axios
+    const response = await axios.get(url);
 
-      <ul>
-        {results.map((user) => (
-          <li key={user.id}>
-            <img src={user.avatar_url} alt={user.login} width={50} />
-            <p>{user.login}</p>
-            {/* Link to GitHub profile */}
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              View Profile
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default Search;
+    // Returning the list of users from the response
+    return response.data.items; // 'items' contains the list of users from the search query
+  } catch (error) {
+    console.error('Error fetching GitHub users:', error);
+    throw error; // Propagate error for handling in the calling function
+  }
+};
