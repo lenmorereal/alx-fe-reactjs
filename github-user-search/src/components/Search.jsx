@@ -10,10 +10,6 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleInputChange = (event) => setQuery(event.target.value);
-  const handleLocationChange = (event) => setLocation(event.target.value);
-  const handleMinReposChange = (event) => setMinRepos(Number(event.target.value));
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -34,19 +30,19 @@ function Search() {
         <input
           type="text"
           value={query}
-          onChange={handleInputChange}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a GitHub user"
         />
         <input
           type="text"
           value={location}
-          onChange={handleLocationChange}
+          onChange={(e) => setLocation(e.target.value)}
           placeholder="Location (optional)"
         />
         <input
           type="number"
           value={minRepos}
-          onChange={handleMinReposChange}
+          onChange={(e) => setMinRepos(Number(e.target.value))}
           placeholder="Min Repositories"
         />
         <button type="submit">Search</button>
@@ -60,6 +56,10 @@ function Search() {
           <li key={user.id}>
             <img src={user.avatar_url} alt={user.login} width={50} />
             <p>{user.login}</p>
+            {/* Add the html_url link to each user */}
+            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+              View Profile
+            </a>
           </li>
         ))}
       </ul>
