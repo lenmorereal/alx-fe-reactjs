@@ -12,6 +12,12 @@ function Search() {
     setQuery(event.target.value);
   };
 
+  // Handle form submit
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevents the default form submission behavior
+    handleSearch();
+  };
+
   // Simulate a search function (you can replace this with an API call)
   const handleSearch = async () => {
     setLoading(true);
@@ -36,13 +42,15 @@ function Search() {
 
   return (
     <div>
-      <input
-        type="text"
-        value={query}
-        onChange={handleInputChange}
-        placeholder="Search for a user"
-      />
-      <button onClick={handleSearch}>Search</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          placeholder="Search for a user"
+        />
+        <button type="submit">Search</button>
+      </form>
 
       {loading && <p>Loading...</p>}
 
