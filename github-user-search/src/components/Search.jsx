@@ -10,11 +10,13 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Fetch user data using advanced search criteria
+  const fetchUserData = async (query, location, minRepos) => {
     try {
       setLoading(true);
       setError(null);
+
+      // Fetch users from the API using the searchGitHubUsers function
       const users = await searchGitHubUsers(query, location, minRepos);
       setResults(users);
     } catch (err) {
@@ -22,6 +24,12 @@ function Search() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Call fetchUserData on form submission with the current search parameters
+    fetchUserData(query, location, minRepos);
   };
 
   return (
@@ -56,7 +64,7 @@ function Search() {
           <li key={user.id}>
             <img src={user.avatar_url} alt={user.login} width={50} />
             <p>{user.login}</p>
-            {/* Add the html_url link to each user */}
+            {/* Link to GitHub profile */}
             <a href={user.html_url} target="_blank" rel="noopener noreferrer">
               View Profile
             </a>
