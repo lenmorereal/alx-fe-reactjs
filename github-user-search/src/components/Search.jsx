@@ -1,61 +1,64 @@
+// src/components/Search.jsx
 import React, { useState } from 'react';
 
-const Search = ({ onSearch }) => {
-  const [username, setUsername] = useState('');
-  const [location, setLocation] = useState('');
-  const [minRepos, setMinRepos] = useState('');
+function Search() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    onSearch({ username, location, minRepos });
+  // Handle input change
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
+
+  // Simulate a search function (you can replace this with an API call)
+  const handleSearch = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Simulate search by filtering an array (replace with API call)
+      const allUsers = [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' },
+        { id: 3, name: 'Alice Johnson' }
+      ];
+      const filteredUsers = allUsers.filter(user =>
+        user.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setResults(filteredUsers);
+    } catch (err) {
+      setError('Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSearch} className="p-4 bg-gray-100 rounded shadow-md space-y-4">
-      <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter GitHub username"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={handleInputChange}
+        placeholder="Search for a user"
+      />
+      <button onClick={handleSearch}>Search</button>
 
-      <div>
-        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
-        <input
-          id="location"
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter location"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
+      {loading && <p>Loading...</p>}
 
-      <div>
-        <label htmlFor="minRepos" className="block text-sm font-medium text-gray-700">Minimum Repositories</label>
-        <input
-          id="minRepos"
-          type="number"
-          value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)}
-          placeholder="Enter minimum repositories"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
+      {error && <p>{error}</p>}
 
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        Search
-      </button>
-    </form>
+      {!loading && results.length === 0 && query && (
+        <p>Looks like we can't find the user</p>
+      )}
+
+      <ul>
+        {results.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
   );
-};
+}
 
 export default Search;
