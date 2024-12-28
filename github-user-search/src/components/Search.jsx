@@ -2,37 +2,45 @@
 import React, { useState } from 'react';
 
 function Search() {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [query, setQuery] = useState(''); // Holds the search query
+  const [results, setResults] = useState([]); // Holds the search results
+  const [loading, setLoading] = useState(false); // Manages the loading state
+  const [error, setError] = useState(null); // Manages any errors during the API request
 
-  // Handle input change
+  // Handle input change and update query state
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
 
-  // Handle form submit
+  // Handle form submission (to trigger the search)
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevents the default form submission behavior
-    handleSearch();
+    handleSearch(query); // Call the search function
   };
 
-  // Simulate a search function (replace with actual API call to GitHub API or other service)
-  const handleSearch = async () => {
-    setLoading(true);
-    setError(null);
+  // Function to fetch data from GitHub API
+  const handleSearch = async (searchQuery) => {
+    setLoading(true); // Start loading
+    setError(null); // Reset any previous errors
     try {
-      // Replace with GitHub API or other service call to search for users
-      const response = await fetch(`https://api.github.com/search/users?q=${query}`);
+      // Make the API request to GitHub's user search endpoint
+      const response = await fetch(`https://api.github.com/search/users?q=${searchQuery}`);
+      
+      // Check if the response is okay
+      if (!response.ok) {
+        throw new Error('Failed to fetch data from GitHub');
+      }
+      
+      // Parse the JSON response
       const data = await response.json();
       
-      // Store the results containing 'login' and 'avatar_url'
+      // Update state with the search results
       setResults(data.items);
     } catch (err) {
-      setError('Something went wrong');
+      // Handle any errors during the API request
+      setError('Something went wrong: ' + err.message);
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading once the request is complete
     }
   };
 
@@ -43,15 +51,16 @@ function Search() {
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Search for a user"
+          placeholder="Search for a GitHub user"
         />
         <button type="submit">Search</button>
       </form>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p>Loading...</p>} {/* Show loading text */}
 
-      {error && <p>{error}</p>}
+      {error && <p>{error}</p>} {/* Show error message */}
 
+      {/* Display results */}
       {!loading && results.length === 0 && query && (
         <p>Looks like we can't find the user</p>
       )}
