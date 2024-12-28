@@ -1,70 +1,40 @@
-// src/components/Search.jsx
-import React, { useState } from 'react';
-import { searchGitHubUsers } from '../services/githubService';
+// src/services/githubService.js
 
-function Search() {
-  const [query, setQuery] = useState('');
-  const [location, setLocation] = useState('');
-  const [minRepos, setMinRepos] = useState(0);
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+// Function to search GitHub users with location and minimum repository filters
+export const searchGitHubUsers = async (query, location = '', minRepos = 0) => {
+  try {
+    // Construct the search URL with query parameters
+    const baseUrl = 'https://api.github.com/search/users?q=';
 
-  const handleInputChange = (event) => setQuery(event.target.value);
-  const handleLocationChange = (event) => setLocation(event.target.value);
-  const handleMinReposChange = (event) => setMinRepos(Number(event.target.value));
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      setLoading(true);
-      setError(null);
-      const users = await searchGitHubUsers(query, location, minRepos);
-      setResults(users);
-    } catch (err) {
-      setError('Failed to fetch users');
-    } finally {
-      setLoading(false);
+    // Building the query string
+    let queryString = query; // Base query (e.g., username)
+    
+    // Add location filter to the query string if provided
+    if (location) {
+      queryString += `+location:${location}`;
     }
-  };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Search for a GitHub user"
-        />
-        <input
-          type="text"
-          value={location}
-          onChange={handleLocationChange}
-          placeholder="Location (optional)"
-        />
-        <input
-          type="number"
-          value={minRepos}
-          onChange={handleMinReposChange}
-          placeholder="Min Repositories"
-        />
-        <button type="submit">Search</button>
-      </form>
+    // Add minimum repositories filter to the query string if provided
+    if (minRepos > 0) {
+      queryString += `+repos:>=${minRepos}`;
+    }
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+    // Construct the full URL
+    const url = `${baseUrl}${encodeURIComponent(queryString)}`;
 
-      <ul>
-        {results.map((user) => (
-          <li key={user.id}>
-            <img src={user.avatar_url} alt={user.login} width={50} />
-            <p>{user.login}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+    // Fetch data from GitHub API
+    const response = await fetch(url);
 
-export default Search;
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error('Failed to fetch data from GitHub API');
+    }
+
+    // Parse and return the result from the API
+    const data = await response.json();
+    return data.items;  // Return the list of users from the API response
+  } catch (error) {
+    console.error('Error fetching GitHub users:', error);
+    throw error;
+  }
+};
