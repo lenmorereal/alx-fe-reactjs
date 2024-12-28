@@ -18,21 +18,17 @@ function Search() {
     handleSearch();
   };
 
-  // Simulate a search function (you can replace this with an API call)
+  // Simulate a search function (replace with actual API call to GitHub API or other service)
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
     try {
-      // Simulate search by filtering an array (replace with API call)
-      const allUsers = [
-        { id: 1, name: 'John Doe' },
-        { id: 2, name: 'Jane Smith' },
-        { id: 3, name: 'Alice Johnson' }
-      ];
-      const filteredUsers = allUsers.filter(user =>
-        user.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setResults(filteredUsers);
+      // Replace with GitHub API or other service call to search for users
+      const response = await fetch(`https://api.github.com/search/users?q=${query}`);
+      const data = await response.json();
+      
+      // Store the results containing 'login' and 'avatar_url'
+      setResults(data.items);
     } catch (err) {
       setError('Something went wrong');
     } finally {
@@ -62,7 +58,10 @@ function Search() {
 
       <ul>
         {results.map((user) => (
-          <li key={user.id}>{user.name}</li>
+          <li key={user.id}>
+            <img src={user.avatar_url} alt={user.login} style={{ width: '50px', height: '50px' }} />
+            <p>{user.login}</p>
+          </li>
         ))}
       </ul>
     </div>
