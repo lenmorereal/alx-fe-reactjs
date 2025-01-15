@@ -1,35 +1,56 @@
-// src/services/githubService.js
-import axios from 'axios';
+import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
-// Function to fetch user data from GitHub API based on advanced search criteria
-export const fetchUserData = async (query, location = '', minRepos = 0) => {
-  try {
-    // GitHub API URL for searching users
-    const baseUrl = 'https://api.github.com/search/users?q=';
+function Search() {
+  const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    // Building the search query string
-    let queryString = query; // Base query (e.g., GitHub username)
+  const handleInputChange = (e) => {
+    setUsername(e.target.value);
+  };
 
-    // Add location filter if provided
-    if (location) {
-      queryString += `+location:${location}`;
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent the default form submission
+    setLoading(true);
+    setError(null);
+    setUserData(null);
+    try {
+      const data = await fetchUserData(username);
+      setUserData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Add minimum repositories filter if provided
-    if (minRepos > 0) {
-      queryString += `+repos:>=${minRepos}`;
-    }
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter GitHub username"
+          value={username}
+          onChange={handleInputChange}
+        />
+        <button type="submit">Search</button>
+      </form>
 
-    // Full URL for the API request
-    const url = `${baseUrl}${encodeURIComponent(queryString)}`;
+      {loading && <p>Loading...</p>}
+      {error && <p>Looks like we can't find the user.</p>}
+      {userData && (
+        <div>
+          <img src={userData.avatar_url} alt={userData.login} />
+          <h2>{userData.name}</h2>
+          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
 
-    // Making GET request using Axios
-    const response = await axios.get(url);
-
-    // Returning the list of users from the response
-    return response.data.items; // 'items' contains the list of users from the search query
-  } catch (error) {
-    console.error('Error fetching GitHub users:', error);
-    throw error; // Propagate error for handling in the calling function
-  }
-};
+export default Search;
